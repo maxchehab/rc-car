@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RC-CAR</title>
+	<script type="text/javascript">
+		 var speed = {x : 0, y : 0};
+
+		update();
+
+		function update(){
+//			speed.x *= .001;
+//			speed.y *= .001;
+			httpGet("http://172.24.1.1/drive/run.php?x=" + speed.x + "&y=" + speed.y)
+
+			
+		}
+
+		
+		document.onkeypress = function(e){
+			e = e || window.event;
+			var charCode = e.charCode || e.keyCode, character = String.fromCharCode(charCode);
+			if(character == 'w'){
+				speed.x += 50;
+				speed.y += 50;
+				update();
+			}
+			if(character == 'a'){
+				speed.x += 50;
+				speed.y = 0;
+				update();
+			}
+			if(character == 's'){
+				speed.x -= 50;
+				speed.y -= 50;
+				update();
+			}
+			if(character == 'd'){
+				speed.y += 50;
+				speed.x = 50;
+				update();
+			}
+
+			if(speed.x > 480){
+				speed.x = 480;
+			}
+			if(speed.x < -480){
+				speed.x = -480;
+			}
+			if(speed.y > 480){
+				speed.y = 480;
+			}
+			if(speed.y < -480){
+				speed.y = -480;
+			}
+		}
+
+
+
+
+
+		function httpGet(url){
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function(){
+				if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+					callback(xmlHttp.responseText);
+				}
+			}
+
+			xmlHttp.open("GET", url, true)
+			xmlHttp.send(null);
+		} 
+
+		function callback(str){
+			console.log(str);
+		}
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
